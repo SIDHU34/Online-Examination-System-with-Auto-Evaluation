@@ -2,15 +2,22 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
-const { createClient } = require('@supabase/supabase-js');
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Supabase setup
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
-const PORT = 3000;
+let supabase = null;
+if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+    const { createClient } = require('@supabase/supabase-js');
+    supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("Supabase connected");
+} else {
+    console.log("Supabase environment variables missing");
+}
 
-// Helper functions
+const PORT = process.env.PORT || 3000;
+
 function hashPassword(password) {
     const salt = crypto.randomBytes(16).toString("hex");
     const hash = crypto.scryptSync(password, salt, 64).toString("hex");
@@ -19,6 +26,7 @@ function hashPassword(password) {
 
 function verifyPassword(password, stored) {
     const [salt, hash] = stored.split(":");
+    if (!salt || !hash) return false;
     const derived = crypto.scryptSync(password, salt, 64).toString("hex");
     return derived === hash;
 }
@@ -27,260 +35,287 @@ function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-// Create server
+function sendJson(res, status, data) {
+    res.writeHead(status, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(data));
+}
+
 const server = http.createServer(async (req, res) => {
     const url = req.url;
-    
-    // Serve HTML files
-    if (url === "/" || url === "/login.html") {
-        fs.readFile(path.join(__dirname, "login.html"), (err, data) => {
+    const method = req.method;
+
+    // Serve static files
+    if (method === "GET" && (url === "/" || url === "/login.html")) {
+        const filePath = path.join(__dirname, "login.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    if (url === "/register.html") {
-        fs.readFile(path.join(__dirname, "register.html"), (err, data) => {
+
+    if (method === "GET" && url === "/register.html") {
+        const filePath = path.join(__dirname, "register.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    if (url === "/dashboard.html") {
-        fs.readFile(path.join(__dirname, "dashboard.html"), (err, data) => {
+
+    if (method === "GET" && url === "/dashboard.html") {
+        const filePath = path.join(__dirname, "dashboard.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    if (url === "/exam.html") {
-        fs.readFile(path.join(__dirname, "exam.html"), (err, data) => {
+
+    if (method === "GET" && url === "/exam.html") {
+        const filePath = path.join(__dirname, "exam.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    if (url === "/results.html") {
-        fs.readFile(path.join(__dirname, "results.html"), (err, data) => {
+
+    if (method === "GET" && url === "/results.html") {
+        const filePath = path.join(__dirname, "results.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    if (url === "/profile.html") {
-        fs.readFile(path.join(__dirname, "profile.html"), (err, data) => {
+
+    if (method === "GET" && url === "/profile.html") {
+        const filePath = path.join(__dirname, "profile.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    if (url === "/leaderboard.html") {
-        fs.readFile(path.join(__dirname, "leaderboard.html"), (err, data) => {
+
+    if (method === "GET" && url === "/leaderboard.html") {
+        const filePath = path.join(__dirname, "leaderboard.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    if (url === "/admin.html") {
-        fs.readFile(path.join(__dirname, "admin.html"), (err, data) => {
+
+    if (method === "GET" && url === "/admin.html") {
+        const filePath = path.join(__dirname, "admin.html");
+        fs.readFile(filePath, (err, data) => {
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(data);
         });
         return;
     }
-    
-    // Serve assets (CSS, JS)
-    if (url.startsWith("/assets/")) {
+
+    // Serve assets
+    if (method === "GET" && url.startsWith("/assets/")) {
         const filePath = path.join(__dirname, url);
         fs.readFile(filePath, (err, data) => {
-            if (err) {
-                res.writeHead(404);
-                res.end();
-                return;
-            }
+            if (err) { sendJson(res, 404, { error: "File not found" }); return; }
             const ext = path.extname(filePath);
-            const contentType = {
-                ".css": "text/css",
-                ".js": "application/javascript"
-            }[ext] || "text/plain";
+            const contentType = ext === ".css" ? "text/css" : "application/javascript";
             res.writeHead(200, { "Content-Type": contentType });
             res.end(data);
         });
         return;
     }
-    
-    // API: Register start
-    if (url === "/api/auth/register/start" && req.method === "POST") {
+
+    // API Routes
+    if (!supabase) {
+        sendJson(res, 500, { error: "Supabase not configured. Add SUPABASE_URL and SUPABASE_ANON_KEY" });
+        return;
+    }
+
+    // Register start
+    if (method === "POST" && url === "/api/auth/register/start") {
         let body = "";
         req.on("data", chunk => body += chunk);
         req.on("end", async () => {
-            const data = JSON.parse(body);
-            const existing = await supabase.from("students").select("id").eq("email", data.email);
-            if (existing.data.length > 0) {
-                res.writeHead(400, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ error: "Email already exists" }));
-                return;
+            try {
+                const data = JSON.parse(body);
+                const { data: existing } = await supabase.from("students").select("id").eq("email", data.email);
+                if (existing && existing.length > 0) {
+                    sendJson(res, 400, { error: "Email already exists" });
+                    return;
+                }
+                const sessionId = crypto.randomUUID();
+                const otp = generateOTP();
+                await supabase.from("otp_sessions").insert({
+                    id: sessionId,
+                    purpose: "register",
+                    email: data.email,
+                    payload_json: JSON.stringify(data),
+                    otp_code: otp,
+                    expires_at: Date.now() + 5 * 60 * 1000,
+                    created_at: Date.now()
+                });
+                sendJson(res, 200, { sessionId, otp, message: "OTP sent" });
+            } catch (err) {
+                sendJson(res, 500, { error: err.message });
             }
-            const sessionId = crypto.randomUUID();
-            const otp = generateOTP();
-            await supabase.from("otp_sessions").insert({
-                id: sessionId,
-                purpose: "register",
-                email: data.email,
-                payload_json: JSON.stringify(data),
-                otp_code: otp,
-                expires_at: Date.now() + 5 * 60 * 1000
-            });
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ sessionId, otp }));
         });
         return;
     }
-    
-    // API: Register verify
-    if (url === "/api/auth/register/verify" && req.method === "POST") {
+
+    // Register verify
+    if (method === "POST" && url === "/api/auth/register/verify") {
         let body = "";
         req.on("data", chunk => body += chunk);
         req.on("end", async () => {
-            const { sessionId, otp } = JSON.parse(body);
-            const session = await supabase.from("otp_sessions").select("*").eq("id", sessionId).single();
-            if (!session.data || session.data.otp_code !== otp || Date.now() > session.data.expires_at) {
-                res.writeHead(400, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ error: "Invalid OTP" }));
-                return;
+            try {
+                const { sessionId, otp } = JSON.parse(body);
+                const { data: session } = await supabase.from("otp_sessions").select("*").eq("id", sessionId).single();
+                if (!session || session.otp_code !== otp || Date.now() > session.expires_at) {
+                    sendJson(res, 400, { error: "Invalid or expired OTP" });
+                    return;
+                }
+                const payload = JSON.parse(session.payload_json);
+                const userId = crypto.randomUUID();
+                await supabase.from("students").insert({
+                    id: userId,
+                    full_name: payload.fullName,
+                    student_id: payload.studentId,
+                    email: payload.email,
+                    phone_number: payload.phoneNumber || "",
+                    preferred_subject: payload.preferredSubject,
+                    password_hash: hashPassword(payload.password),
+                    created_at: new Date().toISOString(),
+                    otp_verified_at: new Date().toISOString()
+                });
+                await supabase.from("otp_sessions").delete().eq("id", sessionId);
+                sendJson(res, 200, { success: true, userId });
+            } catch (err) {
+                sendJson(res, 500, { error: err.message });
             }
-            const payload = JSON.parse(session.data.payload_json);
-            const userId = crypto.randomUUID();
-            await supabase.from("students").insert({
-                id: userId,
-                full_name: payload.fullName,
-                student_id: payload.studentId,
-                email: payload.email,
-                phone_number: payload.phoneNumber,
-                preferred_subject: payload.preferredSubject,
-                password_hash: hashPassword(payload.password),
-                created_at: new Date().toISOString()
-            });
-            await supabase.from("otp_sessions").delete().eq("id", sessionId);
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: true, userId }));
         });
         return;
     }
-    
-    // API: Login start
-    if (url === "/api/auth/login/start" && req.method === "POST") {
+
+    // Login start
+    if (method === "POST" && url === "/api/auth/login/start") {
+        let body = "";
+        req.on("data", chunk => body += chunk);
+        req.on("end", async () => {
+            try {
+                const { email, password } = JSON.parse(body);
+                const { data: student } = await supabase.from("students").select("*").eq("email", email).single();
+                if (!student || !verifyPassword(password, student.password_hash)) {
+                    sendJson(res, 401, { error: "Invalid credentials" });
+                    return;
+                }
+                const sessionId = crypto.randomUUID();
+                const otp = generateOTP();
+                await supabase.from("otp_sessions").insert({
+                    id: sessionId,
+                    purpose: "login",
+                    email: email,
+                    payload_json: JSON.stringify({ studentId: student.id }),
+                    otp_code: otp,
+                    expires_at: Date.now() + 5 * 60 * 1000,
+                    created_at: Date.now()
+                });
+                sendJson(res, 200, { sessionId, otp, message: "OTP sent" });
+            } catch (err) {
+                sendJson(res, 500, { error: err.message });
+            }
+        });
+        return;
+    }
+
+    // Login verify
+    if (method === "POST" && url === "/api/auth/login/verify") {
+        let body = "";
+        req.on("data", chunk => body += chunk);
+        req.on("end", async () => {
+            try {
+                const { sessionId, otp } = JSON.parse(body);
+                const { data: session } = await supabase.from("otp_sessions").select("*").eq("id", sessionId).single();
+                if (!session || session.otp_code !== otp || Date.now() > session.expires_at) {
+                    sendJson(res, 400, { error: "Invalid or expired OTP" });
+                    return;
+                }
+                const payload = JSON.parse(session.payload_json);
+                const { data: student } = await supabase.from("students").select("*").eq("id", payload.studentId).single();
+                await supabase.from("otp_sessions").delete().eq("id", sessionId);
+                sendJson(res, 200, {
+                    success: true,
+                    user: {
+                        id: student.id,
+                        fullName: student.full_name,
+                        email: student.email,
+                        studentId: student.student_id
+                    }
+                });
+            } catch (err) {
+                sendJson(res, 500, { error: err.message });
+            }
+        });
+        return;
+    }
+
+    // Exam submit
+    if (method === "POST" && url === "/api/exams/submit") {
+        let body = "";
+        req.on("data", chunk => body += chunk);
+        req.on("end", async () => {
+            try {
+                const data = JSON.parse(body);
+                await supabase.from("exam_attempts").insert({
+                    id: crypto.randomUUID(),
+                    student_id: data.studentId,
+                    subject_id: data.subjectId,
+                    answered_questions: data.answeredQuestions,
+                    correct_answers: data.correctAnswers,
+                    total_questions: data.totalQuestions,
+                    percentage: data.percentage,
+                    grade: data.grade,
+                    time_taken_seconds: data.timeTakenSeconds,
+                    auto_submitted: data.autoSubmitted ? 1 : 0,
+                    completed_at: new Date().toISOString()
+                });
+                sendJson(res, 200, { success: true });
+            } catch (err) {
+                sendJson(res, 500, { error: err.message });
+            }
+        });
+        return;
+    }
+
+    // Admin login
+    if (method === "POST" && url === "/api/admin/login") {
         let body = "";
         req.on("data", chunk => body += chunk);
         req.on("end", async () => {
             const { email, password } = JSON.parse(body);
-            const student = await supabase.from("students").select("*").eq("email", email).single();
-            if (!student.data || !verifyPassword(password, student.data.password_hash)) {
-                res.writeHead(401, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ error: "Invalid credentials" }));
-                return;
+            if (email === "admin@practice.local" && password === "Admin123!") {
+                sendJson(res, 200, { success: true, token: "admin-token" });
+            } else {
+                sendJson(res, 401, { error: "Invalid admin credentials" });
             }
-            const sessionId = crypto.randomUUID();
-            const otp = generateOTP();
-            await supabase.from("otp_sessions").insert({
-                id: sessionId,
-                purpose: "login",
-                email: email,
-                payload_json: JSON.stringify({ studentId: student.data.id }),
-                otp_code: otp,
-                expires_at: Date.now() + 5 * 60 * 1000
-            });
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ sessionId, otp }));
         });
         return;
     }
-    
-    // API: Login verify
-    if (url === "/api/auth/login/verify" && req.method === "POST") {
-        let body = "";
-        req.on("data", chunk => body += chunk);
-        req.on("end", async () => {
-            const { sessionId, otp } = JSON.parse(body);
-            const session = await supabase.from("otp_sessions").select("*").eq("id", sessionId).single();
-            if (!session.data || session.data.otp_code !== otp || Date.now() > session.data.expires_at) {
-                res.writeHead(400, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ error: "Invalid OTP" }));
-                return;
-            }
-            const payload = JSON.parse(session.data.payload_json);
-            const student = await supabase.from("students").select("*").eq("id", payload.studentId).single();
-            await supabase.from("otp_sessions").delete().eq("id", sessionId);
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ 
-                success: true, 
-                user: {
-                    id: student.data.id,
-                    fullName: student.data.full_name,
-                    email: student.data.email,
-                    studentId: student.data.student_id
-                }
-            }));
-        });
-        return;
-    }
-    
-    // API: Exam submit
-    if (url === "/api/exams/submit" && req.method === "POST") {
-        let body = "";
-        req.on("data", chunk => body += chunk);
-        req.on("end", async () => {
-            const data = JSON.parse(body);
-            await supabase.from("exam_attempts").insert({
-                id: crypto.randomUUID(),
-                student_id: data.studentId,
-                subject_id: data.subjectId,
-                answered_questions: data.answeredQuestions,
-                correct_answers: data.correctAnswers,
-                total_questions: data.totalQuestions,
-                percentage: data.percentage,
-                grade: data.grade,
-                time_taken_seconds: data.timeTakenSeconds,
-                auto_submitted: data.autoSubmitted ? 1 : 0,
-                completed_at: new Date().toISOString()
-            });
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: true }));
-        });
-        return;
-    }
-    
-    // API: Send email
-    if (url === "/api/results/send-email" && req.method === "POST") {
-        let body = "";
-        req.on("data", chunk => body += chunk);
-        req.on("end", async () => {
-            const data = JSON.parse(body);
-            const student = await supabase.from("students").select("*").eq("id", data.studentId).single();
-            const emailData = {
-                to: student.data.email,
-                from: "noreply@exam.com",
-                subject: `Exam Results: ${data.subjectName}`,
-                text: `Your score: ${data.correctAnswers}/${data.totalQuestions} (${data.percentage}%) - Grade: ${data.grade}`
-            };
-            const emailId = crypto.randomUUID();
-            fs.writeFileSync(path.join(__dirname, "data", "emails", `${emailId}.json`), JSON.stringify(emailData));
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: true }));
-        });
-        return;
-    }
-    
+
     // 404
-    res.writeHead(404);
-    res.end();
+    sendJson(res, 404, { error: "Not found" });
 });
 
 server.listen(PORT, () => {
