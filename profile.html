@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile - Practice Exam App</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="profile">
+    <main class="page-shell">
+        <header class="page-header">
+            <div class="header-left">
+                <h1 class="eyebrow">Settings</h1>
+                <p class="subtitle">Manage your profile</p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <section class="dashboard-panel">
+            <article id="profileForm" class="form-panel">
+                <h2>Personal Information</h2>
+
+                <div id="profileAlerts"></div>
+
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label for="profileFullName">Full Name</label>
+                        <input type="text" id="profileFullName" name="fullName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileStudentId">Student ID</label>
+                        <input type="text" id="profileStudentId" name="studentId" readonly>
+                        <small>Student ID cannot be changed</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileEmail">Email Address</label>
+                        <input type="email" id="profileEmail" name="email" readonly>
+                        <small>Email cannot be changed</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profilePhone">Phone Number</label>
+                        <input type="tel" id="profilePhone" name="phoneNumber">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileSubject">Preferred Subject</label>
+                        <select id="profileSubject" name="preferredSubject"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileJoinDate">Member Since</label>
+                        <input type="text" id="profileJoinDate" readonly>
+                        <small>Your account creation date</small>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="dashboard.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </article>
+
+            <article id="securityPanel" class="form-panel">
+                <h2>Security Settings</h2>
+
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <h3>Change Password</h3>
+                        <p class="subtle">Update your password to keep your account secure</p>
+                    </div>
+                    <button class="btn btn-outline" id="changePasswordBtn">Change Password</button>
+                </div>
+
+                <div id="changePasswordForm" class="form-section" hidden>
+                    <div id="passwordAlerts"></div>
+                    <form id="passwordChangeForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" required>
+                            <small>Password must be at least 8 characters with uppercase, lowercase, number, and symbol</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Confirm New Password</label>
+                            <input type="password" id="confirmNewPassword" required>
+                        </div>
+
+                        <div class="btn-row">
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                            <button type="button" class="btn btn-secondary" id="cancelPasswordBtn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </article>
+
+            <article id="statsPanel" class="form-panel">
+                <h2>Your Statistics</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="label">Total Exams</span>
+                        <strong id="statTotalExams">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span class="label">Average Score</span>
+                        <strong id="statAvgScore">0%</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span class="label">Best Score</span>
+                        <strong id="statBestScore">0%</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span class="label">Total Time</span>
+                        <strong id="statTotalTime">0h 0m</strong>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/questions.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Leaderboard - Practice Exam App</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="leaderboard">
+    <main class="page-shell">
+        <header class="page-header">
+            <div class="header-left">
+                <h1 class="eyebrow">Rankings</h1>
+                <p class="subtitle">See top performers in your exam platform</p>
+            </div>
+            <div class="header-right">
+                <a class="btn btn-secondary" href="dashboard.html">Back</a>
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <section class="dashboard-panel">
+            <div class="filter-controls" style="margin-bottom: 20px;">
+                <label for="leaderboardFilter">Filter by Subject:</label>
+                <select id="leaderboardFilter">
+                    <option value="">All Subjects</option>
+                </select>
+            </div>
+
+            <div id="leaderboardAlerts"></div>
+
+            <article id="leaderboardContent">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px; text-align: center;">Rank</th>
+                            <th>Student Name</th>
+                            <th>Student ID</th>
+                            <th style="text-align: center;">Attempts</th>
+                            <th style="text-align: center;">Best Score</th>
+                            <th style="text-align: center;">Average Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 30px;">
+                                <p>Loading leaderboard...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="form-panel" style="margin-top: 30px;">
+                <h2>Your Ranking</h2>
+                <div class="rank-info">
+                    <div class="rank-item">
+                        <span class="label">Your Rank</span>
+                        <strong id="userRank">Calculating...</strong>
+                    </div>
+                    <div class="rank-item">
+                        <span class="label">Your Best Score</span>
+                        <strong id="userBestScore">0%</strong>
+                    </div>
+                    <div class="rank-item">
+                        <span class="label">Your Average Score</span>
+                        <strong id="userAvgScore">0%</strong>
+                    </div>
+                    <div class="rank-item">
+                        <span class="label">Your Attempts</span>
+                        <strong id="userAttempts">0</strong>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/questions.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/leaderboard.js"></script>
+</body>
+</html>

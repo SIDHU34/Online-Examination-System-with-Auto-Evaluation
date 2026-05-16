@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exam Results - Practice Exam App</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="results">
+    <main class="page-shell">
+        <header class="page-header">
+            <div class="header-left">
+                <h1 class="eyebrow">Results</h1>
+                <p class="subtitle">Your exam performance</p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <section class="dashboard-panel">
+            <article id="resultSummary" class="result-card" hidden>
+                <div class="result-header">
+                    <h2 id="subjectName"></h2>
+                    <div class="result-grade-badge" id="gradeBadge"></div>
+                </div>
+
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="label">Score</span>
+                        <strong id="scoreDisplay"></strong>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Percentage</span>
+                        <strong id="percentageDisplay"></strong>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Time Taken</span>
+                        <strong id="durationDisplay"></strong>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Difficulty</span>
+                        <strong id="difficultyDisplay"></strong>
+                    </div>
+                </div>
+
+                <div class="result-analysis">
+                    <h3>Performance Analysis</h3>
+                    <div class="analysis-items">
+                        <div class="analysis-item">
+                            <span>Correct Answers</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="correctProgress" style="width: 0%"></div>
+                            </div>
+                            <small id="correctText"></small>
+                        </div>
+                        <div class="analysis-item">
+                            <span>Unanswered Questions</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="unansweredProgress" style="width: 0%"></div>
+                            </div>
+                            <small id="unansweredText"></small>
+                        </div>
+                        <div class="analysis-item">
+                            <span>Incorrect Answers</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="incorrectProgress" style="width: 0%"></div>
+                            </div>
+                            <small id="incorrectText"></small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn btn-primary" id="viewHistoryBtn">View History</button>
+                    <button class="btn btn-secondary" id="sendEmailBtn">Send via Email</button>
+                    <button class="btn btn-secondary" id="downloadReportBtn">Download Report</button>
+                    <a class="btn btn-outline" href="dashboard.html">Back to Dashboard</a>
+                </div>
+
+                <div id="resultAlerts"></div>
+            </article>
+
+            <article id="resultError" class="dashboard-panel" hidden>
+                <h2>Unable to Load Results</h2>
+                <p id="errorMessage"></p>
+                <a class="btn btn-primary" href="dashboard.html">Return to Dashboard</a>
+            </article>
+        </section>
+    </main>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/questions.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/results.js"></script>
+</body>
+</html>

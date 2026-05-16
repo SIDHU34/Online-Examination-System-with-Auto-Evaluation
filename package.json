@@ -1,0 +1,9 @@
+{
+  "name": "practice-exam-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Practice exam app with SQLite database for students and exam attempts.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

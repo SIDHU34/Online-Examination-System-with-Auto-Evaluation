@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Online Examination System</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="dashboard">
+    <main class="page-shell">
+        <header class="header-bar">
+            <div class="header-brand">
+                <span class="eyebrow">Student Dashboard</span>
+                <h1>Hello, <span id="welcomeName">Student</span></h1>
+                <p class="subtle">Track progress, launch exams and review your performance from one place.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="quickStartBtn" type="button">Quick Start Preferred Subject</button>
+                <a class="btn btn-secondary" href="leaderboard.html">Leaderboard</a>
+                <a class="btn btn-secondary" href="profile.html">Profile</a>
+                <button class="btn btn-danger" id="logoutBtn" type="button">Logout</button>
+            </div>
+        </header>
+
+        <section class="dashboard-layout">
+            <section class="dashboard-panel">
+                <div class="stats-grid">
+                    <article class="stat-card"><strong id="statAttempts">0</strong><span>Total attempts</span></article>
+                    <article class="stat-card"><strong id="statAverage">0%</strong><span>Average score</span></article>
+                    <article class="stat-card"><strong id="statBest">0%</strong><span>Best score</span></article>
+                    <article class="stat-card"><strong id="statSubjects">0</strong><span>Competitive tracks</span></article>
+                </div>
+            </section>
+
+            <section class="two-column">
+                <section class="dashboard-panel">
+                    <span class="eyebrow">Available Subjects</span>
+                    <h2>Start an assessment</h2>
+                    <div id="subjectGrid" class="subject-grid"></div>
+                </section>
+
+                <section class="dashboard-panel">
+                    <span class="eyebrow">Student Profile</span>
+                    <h2>Your details</h2>
+                    <article class="profile-card">
+                        <ul class="profile-list">
+                            <li><span>Name</span><strong id="profileName"></strong></li>
+                            <li><span>Email</span><strong id="profileEmail"></strong></li>
+                            <li><span>Student ID</span><strong id="profileStudentId"></strong></li>
+                            <li><span>Preferred subject</span><strong id="profileSubject"></strong></li>
+                            <li><span>OTP verification</span><strong id="profileVerified"></strong></li>
+                        </ul>
+                    </article>
+                </section>
+            </section>
+
+            <section class="dashboard-panel">
+                <span class="eyebrow">Recent Activity</span>
+                <h2>Exam history</h2>
+                <div id="historyList"></div>
+            </section>
+        </section>
+    </main>
+
+    <script src="assets/js/questions.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

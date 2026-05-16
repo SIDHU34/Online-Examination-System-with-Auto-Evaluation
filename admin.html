@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Practice Exam App</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="admin">
+    <main class="page-shell">
+        <section class="dashboard-panel" id="adminLoginPanel">
+            <span class="eyebrow">Admin Access</span>
+            <h1>Practice Exam Control Room</h1>
+            <p class="subtle">Use the admin panel to review students, exam attempts, and project-wide analytics from the SQLite database.</p>
+            <div id="adminAlerts" class="alert-stack"></div>
+            <form id="adminLoginForm">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="adminEmail">Admin email</label>
+                        <input id="adminEmail" type="email" value="admin@practice.local" required>
+                    </div>
+                    <div class="field">
+                        <label for="adminPassword">Admin password</label>
+                        <input id="adminPassword" type="password" value="Admin123!" required>
+                    </div>
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-primary" type="submit">Login to Admin Panel</button>
+                    <a class="btn btn-secondary" href="login.html">Back to Student Login</a>
+                </div>
+            </form>
+        </section>
+
+        <section id="adminDashboard" hidden>
+            <header class="header-bar">
+                <div class="header-brand">
+                    <span class="eyebrow">Administrator Dashboard</span>
+                    <h1>Project Monitoring Panel</h1>
+                    <p class="subtle">Live overview of registered students and practice exam activity.</p>
+                </div>
+                <div class="header-actions">
+                    <span class="admin-kicker" id="adminIdentity">admin@practice.local</span>
+                    <button class="btn btn-danger" id="adminLogoutBtn" type="button">Logout</button>
+                </div>
+            </header>
+
+            <section class="dashboard-layout">
+                <section class="dashboard-panel">
+                    <div class="stats-grid">
+                        <article class="stat-card"><strong id="adminStatStudents">0</strong><span>Total students</span></article>
+                        <article class="stat-card"><strong id="adminStatAttempts">0</strong><span>Total attempts</span></article>
+                        <article class="stat-card"><strong id="adminStatAverage">0%</strong><span>Average score</span></article>
+                        <article class="stat-card"><strong id="adminStatTop">-</strong><span>Top subject</span></article>
+                    </div>
+                </section>
+
+                <section class="dashboard-panel">
+                    <span class="eyebrow">Registered Students</span>
+                    <h2>Student Database</h2>
+                    <div class="data-table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Student ID</th>
+                                    <th>Email</th>
+                                    <th>Preferred Subject</th>
+                                    <th>Attempts</th>
+                                    <th>Average</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminStudentsTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="dashboard-panel">
+                    <span class="eyebrow">Written Exams</span>
+                    <h2>Attempt Records</h2>
+                    <div class="data-table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Subject</th>
+                                    <th>Score</th>
+                                    <th>Grade</th>
+                                    <th>Time</th>
+                                    <th>Completed</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminAttemptsTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="assets/js/questions.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

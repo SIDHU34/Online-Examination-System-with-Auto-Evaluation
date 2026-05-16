@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Online Examination System</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="register">
+    <main class="auth-shell">
+        <section class="hero-panel">
+            <div>
+                <div class="brand-tag">New Student Setup</div>
+                <h1 class="hero-title">Create your exam account in a few steps.</h1>
+                <p class="hero-copy">Register once, verify your OTP, choose your preferred track and manage academic plus competitive assessments from one dashboard.</p>
+            </div>
+            <div class="hero-grid">
+                <article class="hero-stat"><strong>OTP</strong><span>registration verification</span></article>
+                <article class="hero-stat"><strong>Competitive</strong><span>UPSC, SSC, Banking, NDA</span></article>
+                <article class="hero-stat"><strong>Saved</strong><span>history stored locally in browser</span></article>
+            </div>
+        </section>
+
+        <section class="card">
+            <span class="eyebrow">Registration</span>
+            <h1>Create your account</h1>
+            <p class="subtle">Your account and written exam records are stored in the practice exam database connected to this app.</p>
+
+            <div id="registerAlerts" class="alert-stack"></div>
+
+            <section id="registerSetupPanel">
+                <form id="registerForm">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="fullName">Full name</label>
+                            <input id="fullName" type="text" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="field">
+                            <label for="studentId">Student ID</label>
+                            <input id="studentId" type="text" placeholder="BCA2026008" required>
+                        </div>
+                        <div class="field field-full">
+                            <label for="email">Email address</label>
+                            <input id="email" type="email" placeholder="student@example.com" required>
+                        </div>
+                        <div class="field">
+                            <label for="phoneNumber">Phone number</label>
+                            <input id="phoneNumber" type="tel" placeholder="Optional">
+                        </div>
+                        <div class="field">
+                            <label for="preferredSubject">Preferred subject</label>
+                            <select id="preferredSubject" required></select>
+                        </div>
+                        <div class="field">
+                            <label for="password">Password</label>
+                            <input id="password" type="password" placeholder="At least 8 characters" required>
+                        </div>
+                        <div class="field">
+                            <label for="confirmPassword">Confirm password</label>
+                            <input id="confirmPassword" type="password" placeholder="Re-enter the password" required>
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" type="submit">Create Account and Send OTP</button>
+                        <a class="btn btn-secondary" href="login.html">Back to login</a>
+                    </div>
+                </form>
+            </section>
+
+            <section id="registerVerifyPanel" hidden>
+                <div class="verification-panel">
+                    <h2>Verify registration</h2>
+                    <p class="subtle" id="registerOtpStatus">Enter the 6-digit verification code.</p>
+                    <form id="registerOtpForm">
+                        <div class="field">
+                            <label for="registerOtp">One-time password</label>
+                            <input id="registerOtp" type="text" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit OTP" required>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-primary" type="submit">Verify and Continue</button>
+                            <button class="btn btn-secondary" id="registerResendOtp" type="button">Resend OTP</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="otp-preview-card" id="otpPreview" hidden>
+                <span class="eyebrow">Secure OTP Preview</span>
+                <h2 id="otpPreviewCode">000000</h2>
+                <p class="subtle">Sent to <strong id="otpPreviewTarget"></strong></p>
+                <p class="footer-note" id="otpPreviewTimer">Valid for 5 minutes</p>
+            </section>
+        </section>
+    </main>
+
+    <script src="assets/js/questions.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

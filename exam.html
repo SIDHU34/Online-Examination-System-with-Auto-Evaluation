@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Workspace | Online Examination System</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="exam">
+    <main class="page-shell">
+        <header class="header-bar">
+            <div class="header-brand">
+                <span class="eyebrow">Exam Workspace</span>
+                <h1 id="examSubjectName">Assessment</h1>
+                <p class="subtle" id="examSubjectMeta">Loading subject details...</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='dashboard.html'">Dashboard</button>
+                <button class="btn btn-danger" id="logoutBtn" type="button">Logout</button>
+            </div>
+        </header>
+
+        <section class="exam-shell" id="examWorkspace">
+            <div class="exam-layout">
+                <aside class="exam-sidebar">
+                    <div class="timer-box" id="timerBox">
+                        <span class="eyebrow">Remaining Time</span>
+                        <strong id="timerValue">15:00</strong>
+                        <p class="subtle" id="timerStatus">Timer is running. Progress is auto-saved on this device.</p>
+                    </div>
+
+                    <article class="profile-card">
+                        <h3>Candidate</h3>
+                        <ul class="profile-list">
+                            <li><span>Name</span><strong id="examCandidateName"></strong></li>
+                            <li><span>Student ID</span><strong id="examCandidateId"></strong></li>
+                        </ul>
+                    </article>
+
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+
+                    <article class="profile-card">
+                        <h3>Question Palette</h3>
+                        <div class="palette-grid" id="paletteGrid"></div>
+                    </article>
+                </aside>
+
+                <section class="exam-main">
+                    <div id="questionCard" class="question-card"></div>
+                    <div class="btn-row" style="margin-top: 20px;">
+                        <button class="btn btn-secondary" id="prevBtn" type="button">Previous</button>
+                        <button class="btn btn-secondary" id="nextBtn" type="button">Next</button>
+                        <button class="btn btn-primary" id="submitBtn" type="button">Submit Exam</button>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="resultSection" style="display: none;"></section>
+    </main>
+
+    <script src="assets/js/questions.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
